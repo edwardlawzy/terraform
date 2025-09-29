@@ -37,7 +37,7 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_eip" "nat" {
-  vpc        = true
+  domain        = "vpc"
   tags = { Name = "edward-nat-eip" }
 }
 
@@ -53,8 +53,4 @@ resource "aws_nat_gateway" "nat" {
 
 data "aws_availability_zones" "available" {
   state    = "available"
-  filter {
-    name   = "region"
-    values = [var.aws_region]
-  }
 }

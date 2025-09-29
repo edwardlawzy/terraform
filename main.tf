@@ -32,7 +32,7 @@ module "app" {
   db_username           = var.db_username
   db_password           = var.db_password
   db_instance_class     = "db.t3.micro"
-  db_engine_version     = "8.0.35"
+  db_engine_version     = "8.0"
 
   instance_type         = "t3.small"
   desired_capacity      = 2

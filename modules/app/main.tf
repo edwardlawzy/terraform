@@ -53,7 +53,7 @@ resource "aws_launch_template" "wordpress_lt" {
   name_prefix   = "wordpress-lt-"
   image_id      = var.wordpress_ami_id
   instance_type = var.instance_type
-  key_name      = "edward-wp-keypair" 
+  key_name      = "edward-tf" 
 
   network_interfaces {
     associate_public_ip_address = true
@@ -74,7 +74,6 @@ EOF
 )
 }
 
-# c - create an autoscaling group with t3.small
 resource "aws_autoscaling_group" "wordpress_asg" {
   name                      = "wordpress-asg"
   vpc_zone_identifier       = var.public_subnet_ids
@@ -86,11 +85,10 @@ resource "aws_autoscaling_group" "wordpress_asg" {
 
   launch_template {
     id      = aws_launch_template.wordpress_lt.id
-    version = "$$Latest"
+    version = "$Latest"
   }
 }
 
-# c - simple scaling policy that adds more machines if cpu reaches 50%
 resource "aws_autoscaling_policy" "cpu_scale_out" {
   name                   = "cpu-scale-out"
   autoscaling_group_name = aws_autoscaling_group.wordpress_asg.name
@@ -100,7 +98,6 @@ resource "aws_autoscaling_policy" "cpu_scale_out" {
   cooldown               = 300
 }
 
-# CloudWatch Alarm to trigger the scaling policy
 resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   alarm_name          = "wordpress-asg-cpu-high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
