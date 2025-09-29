@@ -35,7 +35,7 @@ module "app" {
   db_engine_version     = "8.0"
 
   instance_type         = "t3.small"
-  desired_capacity      = 2
-  max_capacity          = 4
-  min_capacity          = 2
+  desired_capacity      = 1
+  max_capacity          = 2
+  min_capacity          = 1
 }
