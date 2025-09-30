@@ -28,7 +28,7 @@ module "app" {
   private_subnet_ids    = module.vpc.private_subnet_ids
 
   wordpress_ami_id      = var.wordpress_ami_id
-  
+  db_name               = var.db_name 
   db_username           = var.db_username
   db_password           = var.db_password
   db_instance_class     = "db.t3.micro"
