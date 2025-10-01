@@ -68,7 +68,7 @@ resource "aws_launch_template" "wordpress_lt" {
 # sed -i 's/database_name_here/${aws_db_instance.wordpress_db.identifier}/g' /var/www/html/wp-config.php
 # sed -i 's/username_here/${var.db_username}/g' /var/www/html/wp-config.php
 # sed -i 's/password_here/${var.db_password}/g' /var/www/html/wp-config.php
-# sed -i 's/localhost/${aws_db_instance.wordpress_db.address}/g' /var/www/html/wp-config.php
+ sed -i 's/192.168.101.101/${aws_db_instance.wordpress_db.address}/g' /var/www/html/wp-config.php
 EOF
 )
 }
