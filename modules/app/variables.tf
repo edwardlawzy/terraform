@@ -13,3 +13,10 @@ variable "db_username" {}
 variable "db_password" {}
 variable "db_instance_class" {}
 variable "db_engine_version" {}
+
+variable "project_name" {type = string} 
+
+variable "asg_threshold" { type = number }
+variable "asg_cooldown" { type = number }
+
+variable "keypair_name" {type = string} 
