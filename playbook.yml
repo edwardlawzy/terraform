@@ -1,0 +1,102 @@
+---
+- name: Install WordPress and MySQL on Amazon Linux 2023
+  hosts: all 
+  become: yes
+
+  vars:
+    mysql_root_password: "password"
+    wordpress_db_name: "mydb"
+    wordpress_db_user: "admin"
+    wordpress_db_password: "password"
+    wordpress_install_dir: "/var/www/html"
+
+  tasks:
+    - name: Update system packages
+      dnf:
+        name: "*"
+        state: latest
+
+    - name: Install LAMP stack components and PHP extensions
+      dnf:
+        name:
+          - httpd
+          - mariadb105-server
+          - php
+          - php-mysqlnd
+          - php-fpm
+          - php-mysqli
+          - php-json
+          - wget
+          - unzip
+        state: present
+
+    - name: Enable and start Apache (httpd)
+      systemd:
+        name: httpd
+        enabled: yes
+        state: started
+
+    - name: Enable and start MariaDB
+      systemd:
+        name: mariadb
+        enabled: yes
+        state: started
+
+    - name: Secure MariaDB installation (set root password)
+      community.mysql.mysql_user:
+        name: root
+        password: "{{ mysql_root_password }}"
+        login_unix_socket: /var/lib/mysql/mysql.sock
+        host: localhost
+        check_implicit_admin: yes
+        state: present
+
+    - name: Create WordPress database
+      community.mysql.mysql_db:
+        name: "{{ wordpress_db_name }}"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+
+    - name: Create WordPress database user
+      community.mysql.mysql_user:
+        name: "{{ wordpress_db_user }}"
+        password: "{{ wordpress_db_password }}"
+        host: "localhost"
+        priv: "{{ wordpress_db_name }}.*:ALL"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+
+    - name: Download WordPress
+      get_url:
+        url: https://wordpress.org/latest.tar.gz
+        dest: /tmp/latest.tar.gz
+
+    - name: Extract WordPress
+      unarchive:
+        src: /tmp/latest.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Copy WordPress files to web root
+      copy:
+        src: /home/ec2-user/
+        dest: "{{ wordpress_install_dir }}/"
+        remote_src: yes
+        owner: apache
+        group: apache
+        mode: '0755'
+
+    - name: Configure WordPress wp-config.php
+      template:
+        src: wp-config.php.j2
+        dest: "{{ wordpress_install_dir }}/wp-config.php"
+        owner: apache
+        group: apache
+        mode: '0640'
+
+    - name: Restart Apache
+      systemd:
+        name: httpd
+        state: restarted
