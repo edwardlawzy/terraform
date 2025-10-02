@@ -2,6 +2,15 @@ resource "aws_security_group" "asg_sg" {
   name        = "wordpress-asg-sg"
   vpc_id      = var.vpc_id
 
+// WILL BE REMOVED
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+}
+//
+
   ingress {
     from_port   = 80
     to_port     = 80
