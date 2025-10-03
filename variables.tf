@@ -53,8 +53,14 @@ variable "vpc_cidr" {type = string}
 variable "vpc_private_subnet" {type = string}
 variable "vpc_public_subnet" {type = string} 
 
-variable "vpc_private_subnet_prefix" {type = string}
-variable "vpc_public_subnet_prefix" {type = string} 
+variable "vpc_private_subnet_prefix" {
+  type = string
+  default = "192.168.1.0/16"
+  }
+variable "vpc_public_subnet_prefix" {
+  type = string
+  default = "192.168.100.0/16"
+  }
 
 variable "vpc_subnet_count" {type = string} 
 variable "new_bits" {
