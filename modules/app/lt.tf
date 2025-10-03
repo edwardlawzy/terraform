@@ -6,7 +6,7 @@ resource "aws_launch_template" "wordpress_lt" {
 
   network_interfaces {
     associate_public_ip_address = true
-    security_groups             = [aws_security_group.asg_sg.id]
+    security_groups             = [var.asg_sg]
   }
 
   user_data = base64encode(<<EOF

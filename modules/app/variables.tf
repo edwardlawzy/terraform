@@ -23,3 +23,4 @@ variable "keypair_name" {type = string}
 
 variable "asg_sg" {type = string}
 variable "db_address" {type = string}
+variable "db_sng" {type = string}
