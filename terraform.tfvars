@@ -35,8 +35,8 @@ vpc_cidr = "192.168.0.0/16"
 vpc_private_subnet = "192.168.1.0/24"
 vpc_public_subnet = "192.168.100.0/24"
 
-vpc_private_subnet_prefix = "192.168.1.0/24"
-vpc_public_subnet_prefix = "192.168.100.0/24"
+vpc_private_subnet_prefix = "192.168.1.0/16"
+vpc_public_subnet_prefix = "192.168.100.0/16"
 
 new_bits = 8
 
