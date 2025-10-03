@@ -29,7 +29,7 @@ module "vpc" {
 module "app" {
   source = "./modules/app"
 
-  asg_sg = var.asg_sg
+  asg_sg = module.vpc.asg_sg
   db_address = module.db.db_address
 
   asg_cooldown = var.asg_cooldown

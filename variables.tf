@@ -25,10 +25,7 @@ variable "db_password" {
 }
 
 variable "db_instance_class" {}
-variable "db_engine_version" {}
-variable "db_sng_id" {type = string} 
-variable "db_sng_name" {type = string} 
-variable "db_address" {type = string} 
+variable "db_engine_version" {} 
 
 
 variable "bucket_name" {
@@ -59,4 +56,3 @@ variable "new_bits" {
   default     = 8
 }
 
-variable "asg_sg" {type = string} 
