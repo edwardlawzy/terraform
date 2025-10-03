@@ -15,7 +15,7 @@ resource "aws_subnet" "private" {
   count             = var.vpc_subnet_count
   vpc_id            = aws_vpc.vpc.id
   #cidr_block        = var.private_subnets[count.index]
-  cidr_block = cidrsubnet(var.vpc_private_subnet, var.new_bits, count.index)########
+  cidr_block = cidrsubnet("192.168.1.0/16", "16", count.index)########
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
