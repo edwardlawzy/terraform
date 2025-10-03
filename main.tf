@@ -11,14 +11,30 @@ provider "aws" {
   region = var.aws_region
 }
 
+
+data "aws_ami" "amazon_linux_2023" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023.*-kernel-6.1-x86_64"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+}
+
 module "vpc" {
   source = "./modules/vpc"
   
   project_name = var.project_name
 
-  vpc_private_subnet = "192.168.101.0/24"
-  vpc_public_subnet = "192.168.1.0/24"
-  vpc_subnet_count = "2"
+  vpc_private_subnet = var.vpc_public_subnet
+  vpc_public_subnet = var.vpc_public_subnet
+  vpc_subnet_count = var.vpc_subnet_count
 
   vpc_cidr       = var.vpc_cidr
   #public_subnets = ["192.168.1.0/24", "192.168.2.0/24"]
@@ -46,10 +62,10 @@ module "app" {
   db_name               = var.db_name 
   db_username           = var.db_username
   db_password           = var.db_password
-  db_instance_class     = "db.t3.micro"
-  db_engine_version     = "8.0"
+  db_instance_class     = var.db_instance_class
+  db_engine_version     = var.db_engine_version
 
-  instance_type         = "t3.small"
+  instance_type         = var.instance_type
   desired_capacity      = 2
   max_capacity          = 4
   min_capacity          = 2
@@ -79,7 +95,7 @@ module "db" {
   db_instance_class     = var.db_instance_class
   db_engine_version     = var.db_engine_version
 
-  instance_type         = "t3.small"
+  instance_type         = var.instance_type
   desired_capacity      = 2
   max_capacity          = 4
   min_capacity          = 2

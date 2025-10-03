@@ -2,9 +2,10 @@
 #--------- General ---------#
 #---------------------------#
 
-aws_region          = "us-east-1"
+aws_region = "us-east-1"
 project_name = "edward-wordpress"
 keypair_name = "edward"
+instance_type = "t3.small"
 
 
 #-----------------------#
