@@ -29,6 +29,9 @@ module "vpc" {
 module "app" {
   source = "./modules/app"
 
+  asg_sg = var.asg_sg
+  db_address = var.db_address
+
   asg_cooldown = var.asg_cooldown
   asg_threshold = var.asg_threshold
 
@@ -58,6 +61,9 @@ module "db" {
 
   asg_cooldown = var.asg_cooldown
   asg_threshold = var.asg_threshold
+
+  db_sng_id = var.db_sng_id
+  db_sng_name = var.db_sng_name
 
   keypair_name = var.keypair_name
 
