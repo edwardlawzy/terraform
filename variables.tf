@@ -56,6 +56,6 @@ variable "vpc_subnet_count" {type = string}
 variable "new_bits" {
   description = "The number of additional bits for subnet allocation (e.g., 8 for /24 subnets from a /16 VPC)."
   type        = number
-  default     = 8
+  default     = 16
 }
 
