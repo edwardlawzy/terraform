@@ -20,3 +20,6 @@ variable "asg_threshold" { type = number }
 variable "asg_cooldown" { type = number }
 
 variable "keypair_name" {type = string} 
+
+variable "asg_sg" {type = string}
+variable "db_address" {type = string}

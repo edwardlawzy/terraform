@@ -1,6 +1,6 @@
 resource "aws_security_group" "asg_sg" {
   name        = "${var.project_name}-asg-sg"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.vpc.id
 
 // WILL BE REMOVED
   ingress {
@@ -36,7 +36,7 @@ resource "aws_security_group" "asg_sg" {
 
 resource "aws_security_group" "rds_sg" {
   name        = "${var.project_name}-rds-sg"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.vpc.id
 
   ingress {
     from_port   = 3306
