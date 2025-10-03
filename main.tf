@@ -67,6 +67,8 @@ module "db" {
   asg_cooldown = var.asg_cooldown
   asg_threshold = var.asg_threshold
 
+  db_sg = module.vpc.db_sg
+
   db_sng_id = module.vpc.db_sng_id
   db_sng_name = module.vpc.db_sng_name
 
