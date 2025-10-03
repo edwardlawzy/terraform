@@ -24,6 +24,10 @@ variable "db_password" {
   sensitive   = true
 }
 
+variable "db_instance_class" {}
+variable "db_engine_version" {}
+
+
 variable "bucket_name" {
   description = "The master password for the RDS database instance."
   type        = string
