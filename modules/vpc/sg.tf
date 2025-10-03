@@ -2,14 +2,20 @@ resource "aws_security_group" "asg_sg" {
   name        = "${var.project_name}-asg-sg"
   vpc_id      = aws_vpc.vpc.id
 
-// WILL BE REMOVED
+# // WILL BE REMOVED
+#   ingress {
+#     from_port   = all
+#     to_port     = all
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+# }
+# //
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
 }
-//
 
   ingress {
     from_port   = 80
