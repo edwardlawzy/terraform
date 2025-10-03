@@ -18,6 +18,9 @@ module "vpc" {
   
   project_name = var.project_name
 
+  vpc_private_subnet_prefix = var.vpc_private_subnet_prefix
+  vpc_public_subnet_prefix = var.vpc_public_subnet_prefix
+
   vpc_private_subnet = var.vpc_public_subnet
   vpc_public_subnet = var.vpc_public_subnet
   vpc_subnet_count = var.vpc_subnet_count
