@@ -7,7 +7,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
   health_check_type         = "EC2"
   force_delete              = true
 
-  target_group_arns = [aws_lb.alb.arn]
+  target_group_arns = [aws_lb_target_group.alb-tg.arn]
 
   launch_template {
     id      = aws_launch_template.wordpress_lt.id
