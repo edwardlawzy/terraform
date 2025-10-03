@@ -14,3 +14,7 @@ output "db_sng_id" {
 output "db_sng_name" {
   value = aws_db_subnet_group.rds_sng.name
 }
+
+output "db_sg" {
+  value = aws_security_group.rds_sg.id
+}

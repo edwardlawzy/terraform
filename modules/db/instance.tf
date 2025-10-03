@@ -8,7 +8,7 @@ resource "aws_db_instance" "wordpress_db" {
   username               = var.db_username
   password               = var.db_password
   db_subnet_group_name   = var.db_sng_name
-  vpc_security_group_ids = [var.db_sng_id]
+  vpc_security_group_ids = [var.db_sg]
   skip_final_snapshot    = true
   publicly_accessible    = false
 }

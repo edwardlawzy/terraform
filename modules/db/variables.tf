@@ -26,3 +26,5 @@ variable "keypair_name" {type = string}
 
 variable "db_sng_id" {type = string} 
 variable "db_sng_name" {type = string} 
+
+variable "db_sg" {type = string} 
