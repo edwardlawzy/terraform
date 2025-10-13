@@ -1,11 +1,11 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 21.0"
+  version = "~> 20.0"
 
-  name               = "my-cluster"
-  kubernetes_version = "1.33"
+  cluster_name    = "${var.project_name}-my-cluster"
+  cluster_version = "1.29"
 
-  addons = {
+  cluster_addons = {
     coredns                = {}
     eks-pod-identity-agent = {
       before_compute = true
@@ -17,7 +17,7 @@ module "eks" {
   }
 
   
-  endpoint_public_access = true
+  cluster_endpoint_public_access = true
 
   enable_cluster_creator_admin_permissions = true
 
