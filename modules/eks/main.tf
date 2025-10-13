@@ -22,8 +22,8 @@ module "eks" {
   enable_cluster_creator_admin_permissions = true
 
   vpc_id                   = var.vpc_id
-  subnet_ids               = [var.private_subnet_ids]
-  control_plane_subnet_ids = [var.public_subnet_ids]
+  subnet_ids               = var.private_subnet_ids
+  control_plane_subnet_ids = var.public_subnet_ids
 
   # EKS Managed Node Group(s)
   eks_managed_node_groups = {
