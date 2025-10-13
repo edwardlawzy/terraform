@@ -32,62 +32,17 @@ module "vpc" {
 }
 
 module "app" {
-  source = "./modules/app"
+  source = "./modules/eks"
 
-  asg_sg = module.vpc.asg_sg
-  db_address = module.db.db_address
-
-  asg_cooldown = var.asg_cooldown
-  asg_threshold = var.asg_threshold
-
-  keypair_name = var.keypair_name
-
-  project_name = var.project_name
   vpc_id                = module.vpc.vpc_id
   public_subnet_ids     = module.vpc.public_subnet_ids
   private_subnet_ids    = module.vpc.private_subnet_ids
-
-  wordpress_ami_id      = var.wordpress_ami_id
-  db_name               = var.db_name 
-  db_username           = var.db_username
-  db_password           = var.db_password
-  db_instance_class     = var.db_instance_class
-  db_engine_version     = var.db_engine_version
 
   instance_type         = var.instance_type
   desired_capacity      = 2
   max_capacity          = 4
   min_capacity          = 2
-}
-
-
-module "db" {
-  source = "./modules/db"
-
-  asg_cooldown = var.asg_cooldown
-  asg_threshold = var.asg_threshold
-
-  db_sg = module.vpc.db_sg
-
-  db_sng_id = module.vpc.db_sng_id
-  db_sng_name = module.vpc.db_sng_name
-
-  keypair_name = var.keypair_name
 
   project_name = var.project_name
-  vpc_id                = module.vpc.vpc_id
-  public_subnet_ids     = module.vpc.public_subnet_ids
-  private_subnet_ids    = module.vpc.private_subnet_ids
-
-  wordpress_ami_id      = var.wordpress_ami_id
-  db_name               = var.db_name 
-  db_username           = var.db_username
-  db_password           = var.db_password
-  db_instance_class     = var.db_instance_class
-  db_engine_version     = var.db_engine_version
-
-  instance_type         = var.instance_type
-  desired_capacity      = 2
-  max_capacity          = 4
-  min_capacity          = 2
+  ami_type = "AL2023_x86_64_STANDARD"
 }
