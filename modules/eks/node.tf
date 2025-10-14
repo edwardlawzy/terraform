@@ -39,10 +39,7 @@ resource "aws_eks_node_group" "general" {
   node_group_name = "general"
   node_role_arn   = aws_iam_role.nodes.arn
 
-  subnet_ids = [
-    aws_subnet.private_zone1.id,
-    aws_subnet.private_zone2.id
-  ]
+  subnet_ids = var.private_subnet_ids
 
   capacity_type  = "ON_DEMAND"
   instance_types = ["t3.micro"]
