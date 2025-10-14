@@ -4,8 +4,8 @@ resource "aws_security_group" "asg_sg" {
 
 # // WILL BE REMOVED
   ingress {
-    from_port   = all
-    to_port     = all
+    from_port   = 0
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -45,8 +45,8 @@ resource "aws_security_group" "rds_sg" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    from_port   = all
-    to_port     = all
+    from_port   = 0
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
 }
