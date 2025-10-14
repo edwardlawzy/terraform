@@ -278,7 +278,7 @@ resource "helm_release" "metrics_server" {
   namespace  = "kube-system"
   version    = "3.12.1"
 
-  values = [file("${path.module}/values/metrics-server.yaml")]
+  values = [file("${path.module}/metrics-values.yaml")]
 
   depends_on = [aws_eks_node_group.general]
 }
@@ -441,19 +441,85 @@ resource "helm_release" "aws_lbc" {
   ]
 }
 
-resource "helm_release" "external_nginx" {
-  name = "external"
+# main.tf (Combined File for NGINX & Argo CD)
 
+# 1. Install the NGINX Ingress Controller using Helm
+#    Note: We remove the 'values' file reference and add necessary args directly.
+resource "helm_release" "external_nginx" {
+  name             = "external"
   repository       = "https://kubernetes.github.io/ingress-nginx"
   chart            = "ingress-nginx"
   namespace        = "ingress"
   create_namespace = true
-  version          = "4.10.1"
+  version          = "4.10.1" # Use the specific version you need
 
-  values = [file("${path.module}/values/nginx-ingress.yaml")]
-
-  depends_on = [helm_release.aws_lbc]
+  # Values for the NGINX Controller deployment to enable SSL Passthrough
+  # which is essential for Argo CD's mixed traffic (HTTPS/gRPC).
+  set ={
+    name  = "controller.extraArgs.enable-ssl-passthrough"
+    value = "true"
+  }
 }
+
+# 2. Deploy the Ingress resource for Argo CD
+#    This resource requires the NGINX Ingress Controller (installed above).
+resource "kubernetes_ingress_v1" "argocd_nginx_ingress" {
+  metadata {
+    name      = "argocd-server-ingress"
+    namespace = "argocd" # Argo CD is typically installed in the 'argocd' namespace
+    annotations = {
+      # Use the NGINX Ingress Class
+      "kubernetes.io/ingress.class"               = "nginx"
+      # Enable SSL Passthrough to handle Argo CD's single port for HTTPS and gRPC
+      "nginx.ingress.kubernetes.io/ssl-passthrough" = "true"
+      # Force redirect to HTTPS
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+    }
+  }
+
+  spec {
+    ingress_class_name = "nginx"
+
+    rule {
+      host = eks.endpoint # Your desired domain for Argo CD
+      http {
+        path {
+          path      = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = "argocd-server" # The service name of the Argo CD API server
+              port {
+                number = 80 # The HTTPS port of the argocd-server service
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    # Configure TLS
+    # tls {
+    #   hosts = ["argocd.example.com"]
+    #   # This secret is created by Argo CD itself
+    #   secret_name = "argocd-server-tls" 
+    # }
+  }
+}
+
+# resource "helm_release" "external_nginx" {
+#   name = "external"
+
+#   repository       = "https://kubernetes.github.io/ingress-nginx"
+#   chart            = "ingress-nginx"
+#   namespace        = "ingress"
+#   create_namespace = true
+#   version          = "4.10.1"
+
+#   values = [file("${path.module}/ingress-values.yaml")]
+
+#   depends_on = [helm_release.aws_lbc]
+# }
 
 resource "helm_release" "cert_manager" {
   name = "cert-manager"
