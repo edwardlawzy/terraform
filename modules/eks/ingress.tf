@@ -7,6 +7,6 @@ resource "helm_release" "external_nginx" {
   create_namespace = true
   version          = "4.10.1"
 
-  values = [file("./ingress-values.yaml")]
+  values = [file("${path.module}/ingress-values.yaml")]
 
 }
