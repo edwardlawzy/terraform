@@ -26,5 +26,5 @@ echo "Service type updated. Checking status:"
 kubectl get svc argocd-server -n argocd
 
 
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo > adminpass
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo > /home/ec2-user/adminpass
 kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 0.0.0.0 &
