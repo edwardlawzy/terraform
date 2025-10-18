@@ -31,7 +31,7 @@ resource "aws_iam_role_policy_attachment" "eks" {
 resource "aws_eks_cluster" "eks" {
   name     = "${var.project_name}-eks-cluster"
   version  = "1.30"
-  role_arn = aws_iam_role.eks-bastion-role.arn
+  role_arn = aws_iam_role.eks_bastion_role.arn
 
   vpc_config {
     endpoint_private_access = false
@@ -45,5 +45,5 @@ resource "aws_eks_cluster" "eks" {
     bootstrap_cluster_creator_admin_permissions = true
   }
 
-  depends_on = [aws_iam_role_policy_attachment.eks-bastion-policy]
+  depends_on = [aws_iam_role_policy_attachment.eks_bastion_policy_attachment]
 }
