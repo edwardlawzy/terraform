@@ -22,6 +22,11 @@ resource "aws_iam_role_policy_attachment" "eks" {
   role       = aws_iam_role.eks.name
 }
 
+resource "aws_iam_role_policy_attachment" "eks_bastion_policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.eks_bastion_role.name
+}
+
 resource "aws_eks_cluster" "eks" {
   name     = "${var.project_name}-eks-cluster"
   version  = "1.30"

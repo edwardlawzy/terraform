@@ -26,9 +26,10 @@ resource "aws_instance" "bastion" {
     Name = "bastion"
   }
 
-  provisioner "local-exec" {
-    command = "echo ${self.public_ip} >> EC2_IPs.txt"
-  }
+    user_data = file("${path.module}/bastion-prep.sh")
+#   provisioner "local-exec" {
+#     command = "echo ${self.public_ip} >> EC2_IPs.txt"
+#   }
 }
 
 resource "aws_security_group" "bastion_sg" {
