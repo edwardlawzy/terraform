@@ -38,8 +38,8 @@ module "app" {
   public_subnet_ids     = module.vpc.public_subnet_ids
   private_subnet_ids    = module.vpc.private_subnet_ids
 
-  bastion_subnet_ids = module.vpc.public_subnet_ids
-  bastion_sg_id = module.vpc.asg_sg.id
+  # bastion_subnet_ids = module.vpc.public_subnet_ids
+  # bastion_sg_id = module.vpc.asg_sg.id
 
   keypair_name = "edward"
 
