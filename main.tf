@@ -38,10 +38,17 @@ module "app" {
   public_subnet_ids     = module.vpc.public_subnet_ids
   private_subnet_ids    = module.vpc.private_subnet_ids
 
+  bastion_subnet_ids = module.vpc.public_subnet_ids
+  bastion_sg_id = module.vpc.asg_sg.id
+
+  keypair_name = "edward"
+
   instance_type         = var.instance_type
   desired_capacity      = 2
   max_capacity          = 4
   min_capacity          = 2
+
+  
 
   project_name = var.project_name
   ami_type = "AL2023_x86_64_STANDARD"
