@@ -69,7 +69,7 @@ resource "aws_security_group" "bastion_sg" {
 
 # Create the IAM Role for the EC2 Bastion
 resource "aws_iam_role" "eks_bastion_role" {
-  name = "eks-bastion-role"
+  name = "${var.project_name}-eks-bastion-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
