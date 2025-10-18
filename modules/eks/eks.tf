@@ -18,7 +18,7 @@ POLICY
 }
 
 resource "aws_iam_role" "eks-bastion-role" {
-  name = "${var.project_name}-eks-cluster-role"
+  name = "${var.project_name}-eks-bastion-role"
 
   assume_role_policy = <<POLICY
 {
@@ -43,10 +43,10 @@ resource "aws_iam_role_policy_attachment" "eks" {
   role       = aws_iam_role.eks.name
 }
 
-# resource "aws_iam_role_policy_attachment" "eks-bastion-policy" {
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-#   role       = aws_iam_role.eks-bastion-role.name
-# }
+resource "aws_iam_role_policy_attachment" "eks-bastion-policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.eks-bastion-role.name
+}
 
 resource "aws_eks_access_entry" "bastion" {
   cluster_name    = aws_eks_cluster.eks.name
@@ -72,5 +72,5 @@ resource "aws_eks_cluster" "eks" {
     bootstrap_cluster_creator_admin_permissions = true
   }
 
-  depends_on = [aws_iam_role_policy_attachment.eks, aws_eks_access_entry.bastion]
+  depends_on = [aws_iam_role_policy_attachment.eks-bastion-policy]
 }
