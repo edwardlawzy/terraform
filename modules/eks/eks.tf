@@ -58,7 +58,7 @@ resource "aws_eks_access_entry" "bastion" {
 resource "aws_eks_cluster" "eks" {
   name     = "${var.project_name}-eks-cluster"
   version  = "1.30"
-  role_arn = aws_iam_role.eks-bastion-role
+  role_arn = aws_iam_role.eks-bastion-role.arn
 
   vpc_config {
     endpoint_private_access = false
