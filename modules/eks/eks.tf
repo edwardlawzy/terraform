@@ -18,7 +18,7 @@ POLICY
 }
 
 resource "aws_iam_role" "eks-bastion-role" {
-  name = "eks-bastion-role"
+  name = "${var.project_name}-eks-bastion-role"
 
   assume_role_policy = <<POLICY
 {
