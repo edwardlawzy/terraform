@@ -44,7 +44,7 @@ resource "aws_iam_role_policy_attachment" "eks" {
 }
 
 resource "aws_iam_role_policy_attachment" "eks-bastion-policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSAdminPolicy"
   role       = aws_iam_role.eks-bastion-role.name
 }
 
