@@ -20,7 +20,7 @@ echo "ArgoCD API is up."
 
 echo "Patching service argocd-server to type NodePort..."
 
-kubectl patch svc argocd-server -n argocd --type='ClusterIP' -p '{"spec":{"type":"NodePort"}}'
+kubectl patch svc argocd-server -n argocd --type='Strategic' -p '{"spec":{"type":"NodePort"}}'
 
 echo "Service type updated. Checking status:"
 kubectl get svc argocd-server -n argocd
@@ -28,3 +28,5 @@ kubectl get svc argocd-server -n argocd
 
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo > /home/ec2-user/adminpass
 kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 0.0.0.0 &
+
+# kubectl patch svc argocd-server -n argocd -p '{"spec":{"externalIPs":["54.89.7.230"]}}'
