@@ -1,7 +1,20 @@
+data "aws_ami" "amazon_linux_2023" {
+  most_recent = true
+  owners      = ["amazon"]
 
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023.*-kernel-6.1-x86_64"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+}
 
 resource "aws_instance" "bastion" {
-  ami                    = var.ami_type
+  ami                    = data.aws_ami.amazon_linux_2023.id
   instance_type          = "t3.nano"
   subnet_id              = var.public_subnet_ids[0]
   vpc_security_group_ids = [aws_security_group.bastion_sg.id]
