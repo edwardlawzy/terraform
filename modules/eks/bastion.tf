@@ -21,7 +21,7 @@ resource "aws_instance" "bastion" {
 resource "aws_security_group" "bastion_sg" {
   name        = "bastion-sg"
   description = "Allow SSH from trusted IP and access to EKS"
-  vpc_id      = module.network.my_vpc
+  vpc_id      = module.vpc.vpc
 
   ingress {
     description = "Allow All"
